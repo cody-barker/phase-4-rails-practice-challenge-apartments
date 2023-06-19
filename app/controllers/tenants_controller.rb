@@ -13,6 +13,8 @@ class TenantsController < ApplicationController
     end
 
     def show
+        tenant = find_tenant
+        render json: tenant, include: :apartments
     end
 
     # def create
@@ -28,6 +30,10 @@ class TenantsController < ApplicationController
 
     def find_apartment
         Apartment.find(params[:apartment_id])
+    end
+
+    def find_tenant
+        Tenant.find(params[:id])
     end
 
     def render_record_not_found_response
