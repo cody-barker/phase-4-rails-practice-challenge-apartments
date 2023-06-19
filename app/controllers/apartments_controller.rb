@@ -9,11 +9,12 @@ class ApartmentsController < ApplicationController
         else
             apartments = Apartment.all
         end
-        render json: apartments, include: :tenant
+        render json: apartments, include: :tenants
     end
 
-    # def show
-    # end
+    def show
+        
+    end
 
     # def create
     # end
