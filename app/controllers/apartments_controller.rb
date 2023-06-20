@@ -17,8 +17,15 @@ class ApartmentsController < ApplicationController
         render json: apartment, include: :tenants
     end
 
-    # def create
-    # end
+    def create
+        if params[:tenant_id]
+            tenant = find_tenant
+            apartment = tenant.apartments.create(apartment_params)
+        else
+            apartment = Apartment.create(apartment_params)
+        end
+        render json: apartment, include: :tenants, status: :created
+    end
 
     # def update
     # end
@@ -30,6 +37,10 @@ class ApartmentsController < ApplicationController
 
     def find_tenant
         Tenant.find(params[:tenant_id])
+    end
+
+    def apartment_params
+        params.permit(:number)
     end
 
     def find_apartment

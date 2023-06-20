@@ -17,8 +17,15 @@ class TenantsController < ApplicationController
         render json: tenant, include: :apartments
     end
 
-    # def create
-    # end
+    def create
+        if params[:apartment_id]
+            apartment = find_apartment
+            tenant = apartment.tenants.create(tenant_params)
+        else
+            tenant = Tenant.create(tenant_params)
+        end
+        render json: tenant, include: :apartments, status: :created
+    end
 
     # def update
     # end
@@ -34,6 +41,10 @@ class TenantsController < ApplicationController
 
     def find_tenant
         Tenant.find(params[:id])
+    end
+
+    def tenant_params
+        params.permit(:name, :age)
     end
 
     def render_record_not_found_response
