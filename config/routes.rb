@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   resources :apartments do
     resources :tenants
   end
-  resources :leases, only: [:create, :destroy]
+  resources :leases
 end

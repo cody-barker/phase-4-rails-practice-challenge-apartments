@@ -9,12 +9,17 @@ class TenantsController < ApplicationController
         else
             tenants = Tenant.all
         end
-        render json: tenants, include: :apartments
+        render json: tenants, include: ['apartments', 'apartments.leases']
     end
 
     def show
-        tenant = find_tenant
-        render json: tenant, include: :apartments
+        if params[:apartment_id]
+            apartment = find_apartment
+            tenant = apartment.tenants.find(params[:id])
+        else
+            tenant = find_tenant
+        end
+        render json: tenant, include: ['apartments', 'apartments.leases']
     end
 
     def create
@@ -24,13 +29,13 @@ class TenantsController < ApplicationController
         else
             tenant = Tenant.create(tenant_params)
         end
-        render json: tenant, include: :apartments, status: :created
+        render json: tenant, include: ['apartments', 'apartments.leases'], status: :created
     end
 
     def update
         tenant = find_tenant
         tenant.update(tenant_params)
-        render json: tenant, include: :apartments, status: :accepted
+        render json: tenant, include: ['apartments', 'apartments.leases'],  status: :accepted
     end
 
     def destroy
