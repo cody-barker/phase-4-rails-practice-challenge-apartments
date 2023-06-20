@@ -13,13 +13,7 @@ class LeasesController < ApplicationController
     end
     
     def create
-        if params[:tenant_id]
-            tenant = find_tenant
-            tenant.leases.create(lease_params)
-        else
-            apartment = find_apartment
-            apartment.leases.create(lease_params)
-        end
+        lease = Lease.create(lease_params)
         render json: lease, status: :created
     end
 
@@ -44,7 +38,7 @@ class LeasesController < ApplicationController
     end
 
     def lease_params
-        params.permit(:rent, :tenant_id, :apartment_id, :id)
+        params.permit(:rent, :tenant_id, :apartment_id)
     end
 
     def render_record_not_found_response
