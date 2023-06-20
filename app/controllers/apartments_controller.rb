@@ -27,8 +27,9 @@ class ApartmentsController < ApplicationController
         render json: apartment, include: :tenants, status: :created
     end
 
-    # def update
-    # end
+    def update
+        
+    end
 
     # def destroy
     # end
