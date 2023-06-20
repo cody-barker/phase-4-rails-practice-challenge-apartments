@@ -28,11 +28,16 @@ class ApartmentsController < ApplicationController
     end
 
     def update
-        
+        apartment = find_apartment
+        apartment.update(apartment_params)
+        render json: apartment, include: :tenants, status: :accepted
     end
 
-    # def destroy
-    # end
+    def destroy
+        apartment = find_apartment
+        apartment.destroy
+        render json: {}, status: :no_content
+    end
 
     private
 

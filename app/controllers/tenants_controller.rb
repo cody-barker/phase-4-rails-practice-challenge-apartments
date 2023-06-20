@@ -27,11 +27,17 @@ class TenantsController < ApplicationController
         render json: tenant, include: :apartments, status: :created
     end
 
-    # def update
-    # end
+    def update
+        tenant = find_tenant
+        tenant.update(tenant_params)
+        render json: tenant, include: :apartments, status: :accepted
+    end
 
-    # def destroy
-    # end
+    def destroy
+        tenant = find_tenant
+        tenant.destroy
+        render json: {}, status: :no_content
+    end
 
     private
 
