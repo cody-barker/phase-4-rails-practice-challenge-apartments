@@ -13,8 +13,14 @@ class LeasesController < ApplicationController
     end
     
     def create
-        lease = Lease.create(lease_params)
+        lease = Lease.create!(lease_params)
         render json: lease, status: :created
+    end
+
+    def update
+        lease = Lease.find(params[:id])
+        lease.update!(lease_params)
+        render json: lease, status: :accepted
     end
 
     def destroy
@@ -42,7 +48,7 @@ class LeasesController < ApplicationController
     end
 
     def render_record_not_found_response
-        render json: {error: "Record not found."}, status: :not_found
+        render json: {error: "Lease not found."}, status: :not_found
     end
 
     def render_record_invalid_response(exception)

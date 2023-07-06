@@ -13,12 +13,7 @@ class ApartmentsController < ApplicationController
     end
 
     def show
-        if params[:tenant_id]
-            tenant = find_tenant
-            apartment = tenant.apartments.find(params[:id])
-        else
         apartment = find_apartment
-        end
         render json: apartment, include: ['tenants', 'tenants.leases']
     end
 
@@ -27,14 +22,14 @@ class ApartmentsController < ApplicationController
             tenant = find_tenant
             apartment = tenant.apartments.create(apartment_params)
         else
-            apartment = Apartment.create(apartment_params)
+            apartment = Apartment.create!(apartment_params)
         end
         render json: apartment, include: ['tenants', 'tenants.leases'], status: :created
     end
 
     def update
         apartment = find_apartment
-        apartment.update(apartment_params)
+        apartment.update!(apartment_params)
         render json: apartment, include: ['tenants', 'tenants.leases'], status: :accepted
     end
 
@@ -59,7 +54,7 @@ class ApartmentsController < ApplicationController
     end
 
     def render_record_not_found_response
-        render json: {error: "Record not found."}, status: :not_found
+        render json: {error: "Apartment not found."}, status: :not_found
     end
 
     def render_record_invalid_response(exception)
